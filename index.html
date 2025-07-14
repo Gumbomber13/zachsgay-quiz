@@ -1,13 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Red Fox Power Fantasy Quiz</title>
-    <script src="https://embed.typeform.com/next/embed.js"></script>
-    <style>body { font-family: Arial; text-align: center; } div { max-width: 800px; margin: auto; }</style>
+  <meta charset="UTF-8" />
+  <title>Red Fox Story Quiz</title>
+  <style>
+    body { font-family: Arial; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f4f4f4; }
+    .quiz { background: white; padding: 2em; border-radius: 10px; width: 100%; max-width: 500px; }
+    .question { display: none; flex-direction: column; }
+    .question.active { display: flex; }
+    button { margin-top: 1em; }
+  </style>
 </head>
 <body>
-    <h1>Create Your Red Fox Story</h1>
-    <div data-tf-live="01K055EN6MY07PV8JR375F33K2"></div>
+  <div class="quiz">
+    <form id="quizForm">
+      <div class="question active">
+        <label>1. What kind of story do you want to tell?</label>
+        <input type="text" name="story_type" required>
+        <button type="button" onclick="next()">Next</button>
+      </div>
+      <div class="question">
+        <label>2. What happens to the red fox? (A. Humiliation / B. Offering)</label>
+        <input type="text" name="humiliation_type" required>
+        <button type="button" onclick="next()">Next</button>
+      </div>
+      <div class="question">
+        <label>3. Who is the red fox offering to?</label>
+        <input type="text" name="offering_who">
+        <button type="button" onclick="next()">Next</button>
+      </div>
+      <div class="question">
+        <label>4. What is the offering?</label>
+        <input type="text" name="offering_what">
+        <button type="button" onclick="next()">Next</button>
+      </div>
+      <div class="question">
+        <label>5. How is the red fox humiliated?</label>
+        <input type="text" name="humiliation">
+        <button type="button" onclick="next()">Next</button>
+      </div>
+      <div class="question">
+        <label>6. What does the fox find?</label>
+        <input type="text" name="find" required>
+        <button type="button" onclick="next()">Next</button>
+      </div>
+      <div class="question">
+        <label>7. What does he do with what he finds? (A. Trains / B. Builds)</label>
+        <input type="text" name="do_with_find" required>
+        <button type="button" onclick="next()">Next</button>
+      </div>
+      <div class="question">
+        <label>8. What crime does the villain commit?</label>
+        <input type="text" name="villain_crime">
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+    <div id="thanks" style="display:none;">Thanks! The red fox is being summoned...</div>
+  </div>
+
+  <script>
+    const steps = document.querySelectorAll('.question');
+    let current = 0;
+    function next() {
+      steps[current].classList.remove('active');
+      current++;
+      steps[current].classList.add('active');
+    }
+
+    document.getElementById('quizForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const formData = Object.fromEntries(new FormData(this));
+      
+      await fetch('https://your-backend-url.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      this.style.display = 'none';
+      document.getElementById('thanks').style.display = 'block';
+    });
+  </script>
 </body>
 </html>
