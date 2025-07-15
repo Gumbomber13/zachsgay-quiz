@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Red Fox Power Fantasy Quiz</title>
+  <title>Red Fox Story Quiz</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -29,13 +29,18 @@
     .question.active {
       display: flex;
     }
-    input, button {
+    input[type="text"] {
       padding: 0.6em;
       font-size: 1em;
       width: 100%;
     }
-    h1 {
-      text-align: center;
+    button {
+      padding: 0.6em;
+      font-size: 1em;
+      margin-top: 1em;
+    }
+    label {
+      font-weight: bold;
     }
   </style>
 </head>
@@ -49,8 +54,9 @@
         <button type="button" onclick="next()">Next</button>
       </div>
       <div class="question">
-        <label>2. What happens to the red fox? (A. Humiliation / B. Offering)</label>
-        <input type="text" name="humiliation_type" required>
+        <label>2. What happens to the red fox?</label>
+        <label><input type="radio" name="humiliation_type" value="A" required> A. Humiliation</label>
+        <label><input type="radio" name="humiliation_type" value="B"> B. Offering</label>
         <button type="button" onclick="next()">Next</button>
       </div>
       <div class="question">
@@ -74,8 +80,9 @@
         <button type="button" onclick="next()">Next</button>
       </div>
       <div class="question">
-        <label>7. What does he do with what he finds? (A. Trains / B. Builds)</label>
-        <input type="text" name="do_with_find" required>
+        <label>7. What does he do with what he finds?</label>
+        <label><input type="radio" name="do_with_find" value="A" required> A. Trains</label>
+        <label><input type="radio" name="do_with_find" value="B"> B. Builds</label>
         <button type="button" onclick="next()">Next</button>
       </div>
       <div class="question">
