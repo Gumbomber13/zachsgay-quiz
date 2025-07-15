@@ -1,18 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Red Fox Story Quiz</title>
+  <meta charset="UTF-8">
+  <title>Red Fox Power Fantasy Quiz</title>
   <style>
-    body { font-family: Arial; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f4f4f4; }
-    .quiz { background: white; padding: 2em; border-radius: 10px; width: 100%; max-width: 500px; }
-    .question { display: none; flex-direction: column; }
-    .question.active { display: flex; }
-    button { margin-top: 1em; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f6f8fa;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .quiz {
+      background: white;
+      padding: 2em;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    .question {
+      display: none;
+      flex-direction: column;
+      gap: 1em;
+    }
+    .question.active {
+      display: flex;
+    }
+    input, button {
+      padding: 0.6em;
+      font-size: 1em;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <div class="quiz">
+    <h1>🦊 Red Fox Story Quiz</h1>
     <form id="quizForm">
       <div class="question active">
         <label>1. What kind of story do you want to tell?</label>
@@ -51,16 +80,19 @@
       </div>
       <div class="question">
         <label>8. What crime does the villain commit?</label>
-        <input type="text" name="villain_crime">
+        <input type="text" name="villain_crime" required>
         <button type="submit">Submit</button>
       </div>
     </form>
-    <div id="thanks" style="display:none;">Thanks! The red fox is being summoned...</div>
+    <div id="thanks" style="display:none;">
+      <h2>Thanks! Your red fox story is being created...</h2>
+    </div>
   </div>
 
   <script>
     const steps = document.querySelectorAll('.question');
     let current = 0;
+
     function next() {
       steps[current].classList.remove('active');
       current++;
@@ -69,16 +101,26 @@
 
     document.getElementById('quizForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-      const formData = Object.fromEntries(new FormData(this));
-      
-      await fetch('https://your-backend-url.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
 
-      this.style.display = 'none';
-      document.getElementById('thanks').style.display = 'block';
+      const formData = Object.fromEntries(new FormData(this).entries());
+
+      try {
+        const res = await fetch('http://localhost:5000/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+
+        if (res.ok) {
+          this.style.display = 'none';
+          document.getElementById('thanks').style.display = 'block';
+        } else {
+          alert("Something went wrong! Please try again.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Couldn't connect to the server. Make sure it's running.");
+      }
     });
   </script>
 </body>
